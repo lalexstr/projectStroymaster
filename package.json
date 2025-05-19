@@ -2,6 +2,7 @@
   "name": "stroymaster-project",
   "version": "1.0.0",
   "description": "StoryMaster Project",
+  "type": "module",
   "scripts": {
     "start:backend": "cd server/projectStroymaster && npm run start",
     "start:frontend": "cd client/project-Stroymaste-front && npm run dev -- --host",
