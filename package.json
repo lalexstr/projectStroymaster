@@ -1,14 +1,35 @@
 {
-  "name": "stroymaster-project",
+  "name": "back",
   "version": "1.0.0",
-  "description": "StoryMaster Project",
+  "main": "index.js",
   "type": "module",
   "scripts": {
-    "start:backend": "cd server/projectStroymaster && npm run start",
-    "start:frontend": "cd client/project-Stroymaste-front && npm run dev -- --host",
-    "dev": "concurrently \"npm run start:backend\" \"npm run start:frontend\""
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "deploy": "bash deploy.sh",
+    "prod": "pm2 start ecosystem.config.js",
+    "stop": "pm2 stop all",
+    "restart": "pm2 restart all",
+    "logs": "pm2 logs",
+    "status": "pm2 status",
+    "build:front": "cd front && npm ci && npm run build"
   },
+  "author": "",
+  "license": "ISC",
+  "description": "",
   "dependencies": {
-    "concurrently": "^8.2.2"
+    "bcrypt": "^5.1.1",
+    "better-sqlite3": "^11.10.0",
+    "body-parser": "^2.2.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "express-session": "^1.18.1",
+    "express-validator": "^7.2.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.13.2",
+    "multer": "^1.4.5-lts.2",
+    "mysql2": "^3.14.0",
+    "nodemon": "^3.1.9"
   }
 }
