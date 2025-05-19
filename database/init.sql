@@ -57,7 +57,8 @@ INSERT OR IGNORE INTO categories (name) VALUES
 ('Песок амурский'),
 ('Щебень'),
 ('Отсев'),
-('Глина');
+('Глина'),
+('Марочный бетон');
 
 -- Тестовые данные для производителей
 INSERT OR IGNORE INTO manufacturers (name) VALUES ('СтройМастер');

@@ -119,6 +119,31 @@ app.use((err, req, res, next) => {
   });
 });
 
+// Обработка ошибок сервера
+app.on('error', (err, socket) => {
+  if (err.code === 'ECONNRESET' || err.code === 'EPIPE') {
+    // Игнорируем ошибки разрыва соединения
+    return;
+  }
+
+  // Для остальных ошибок
+  console.error('Server error:', err);
+
+  // Закрываем сокет, если он еще открыт
+  if (socket && !socket.destroyed) {
+    socket.destroy();
+  }
+});
+
+// Обработка клиентских ошибок
+app.on('clientError', (err, socket) => {
+  if (err.code === 'ECONNRESET' || !socket.writable) {
+    return;
+  }
+
+  socket.end('HTTP/1.1 400 Bad Request\r\n\r\n');
+});
+
 process.on('SIGINT', () => {
   console.log('Закрытие соединения с БД...');
   db.close();
