@@ -7,11 +7,15 @@ import cors from 'cors';
 import { fileURLToPath } from 'url';
 import { error } from 'console';
 
+// Получаем текущую директорию
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 // Путь к файлу базы данных SQLite
-const dbPath = path.join(process.cwd(), 'database', 'shop.db');
+const dbPath = path.join(__dirname, 'database', 'shop.db');
 
 // Подключение к SQLite базе данных 
-export const db = new Database(dbPath, { 
+export const db = new Database(dbPath, {
   verbose: console.log // Опционально: логирование запросов
 });
 
@@ -20,12 +24,13 @@ export async function initializeDatabase() {
   try {
     // Включение поддержки внешних ключей
     db.pragma('foreign_keys = ON');
-    
+
     // Чтение SQL-скрипта
     const sqlScript = fs.readFileSync(
-      path.join(process.cwd(), 'database', 'init.sql'), 
+      path.join(__dirname, 'database', 'init.sql'),
       'utf8'
     );
+
     // Разделение скрипта на отдельные запросы
     const queries = sqlScript.split(';')
       .map(q => q.trim())
@@ -46,11 +51,12 @@ export async function initializeDatabase() {
     throw error;
   }
 }
+
 // Создание Express приложения
 export const app = express();
 app.use(bodyParser.json());
 app.use(cors({
-  origin: 'http://localhost:5173/admin', 
+  origin: ['http://194.67.84.96:5173'],
   credentials: true
 }));
 

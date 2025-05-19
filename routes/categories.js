@@ -30,7 +30,7 @@ router.get('/', (req, res) => {
       FROM categories
       ORDER BY name ASC
     `).all();
-    
+
     res.json(categories);
   } catch (error) {
     console.error('Ошибка при получении категорий:', {
@@ -38,8 +38,8 @@ router.get('/', (req, res) => {
       stack: error.stack,
       timestamp: new Date().toISOString()
     });
-    
-    res.status(500).json({ 
+
+    res.status(500).json({
       error: 'Ошибка сервера',
       details: process.env.NODE_ENV === 'development' ? error.message : undefined
     });

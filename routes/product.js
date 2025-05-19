@@ -27,7 +27,7 @@ export default (upload) => {
   router.post('/', upload.array('photos'), (req, res) => {
     try {
       const { name, description, price, category_id, manufacturer_id } = req.body;
-      
+
       // Проверка обязательных полей
       if (!name || !price || !category_id || !manufacturer_id) {
         return res.status(400).json({ error: "Не заполнены обязательные поля" });
@@ -41,7 +41,7 @@ export default (upload) => {
         const productResult = db.prepare(
           'INSERT INTO products (name, description, price, category_id, manufacturer_id) VALUES (?, ?, ?, ?, ?)'
         ).run(name, description, price, category_id, manufacturer_id);
-        
+
         const productId = productResult.lastInsertRowid;
 
         // 2. Сохраняем фотографии
@@ -49,7 +49,7 @@ export default (upload) => {
           const insertPhoto = db.prepare(
             'INSERT INTO photos (product_id, photo_path) VALUES (?, ?)'
           );
-          
+
           for (const file of req.files) {
             insertPhoto.run(productId, `/uploads/${file.filename}`);
           }
@@ -85,7 +85,7 @@ export default (upload) => {
       }
     } catch (error) {
       console.error('Ошибка при создании товара:', error);
-      res.status(500).json({ 
+      res.status(500).json({
         error: "Ошибка сервера",
         details: process.env.NODE_ENV === 'development' ? error.message : undefined
       });
@@ -117,12 +117,12 @@ export default (upload) => {
         if (req.files && req.files.length > 0) {
           // Удаляем старые фотографии
           db.prepare('DELETE FROM photos WHERE product_id = ?').run(productId);
-          
+
           // Добавляем новые
           const insertPhoto = db.prepare(
             'INSERT INTO photos (product_id, photo_path) VALUES (?, ?)'
           );
-          
+
           for (const file of req.files) {
             insertPhoto.run(productId, `/uploads/${file.filename}`);
           }
@@ -156,7 +156,7 @@ export default (upload) => {
       }
     } catch (error) {
       console.error('Ошибка при обновлении товара:', error);
-      res.status(500).json({ 
+      res.status(500).json({
         error: 'Ошибка сервера',
         details: process.env.NODE_ENV === 'development' ? error.message : undefined
       });
@@ -190,7 +190,7 @@ export default (upload) => {
       }
     } catch (error) {
       console.error('Ошибка при удалении:', error);
-      res.status(500).json({ 
+      res.status(500).json({
         error: 'Не удалось удалить товар',
         details: process.env.NODE_ENV === 'development' ? error.message : undefined
       });
@@ -204,7 +204,7 @@ export default (upload) => {
       res.json(results);
     } catch (error) {
       console.error('Ошибка при получении категорий:', error);
-      res.status(500).json({ 
+      res.status(500).json({
         error: 'Ошибка сервера',
         details: process.env.NODE_ENV === 'development' ? error.message : undefined
       });
@@ -218,7 +218,7 @@ export default (upload) => {
       res.json(results);
     } catch (error) {
       console.error('Ошибка при получении производителей:', error);
-      res.status(500).json({ 
+      res.status(500).json({
         error: 'Ошибка сервера',
         details: process.env.NODE_ENV === 'development' ? error.message : undefined
       });
@@ -268,7 +268,7 @@ export default (upload) => {
       res.json(result);
     } catch (error) {
       console.error('Ошибка при получении товаров:', error);
-      res.status(500).json({ 
+      res.status(500).json({
         error: 'Ошибка сервера',
         details: process.env.NODE_ENV === 'development' ? error.message : undefined
       });
@@ -315,7 +315,7 @@ export default (upload) => {
       res.json(result);
     } catch (error) {
       console.error('Ошибка при получении товара:', error);
-      res.status(500).json({ 
+      res.status(500).json({
         error: 'Ошибка сервера',
         details: process.env.NODE_ENV === 'development' ? error.message : undefined
       });

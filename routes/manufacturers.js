@@ -15,10 +15,10 @@ router.get('/', (req, res) => {
       GROUP BY name 
       HAVING count > 1
     `).all();
-    
+
     if (duplicates.length > 0) {
       console.warn('Обнаружены дубликаты производителей:', duplicates);
-      
+
       // Автоматически чистим дубликаты
       db.exec(`
         CREATE TEMPORARY TABLE temp_manufacturers AS
@@ -52,8 +52,8 @@ router.get('/', (req, res) => {
       error: error.message,
       stack: error.stack
     });
-    
-    res.status(500).json({ 
+
+    res.status(500).json({
       error: 'Ошибка сервера',
       details: process.env.NODE_ENV === 'development' ? error.message : undefined
     });
